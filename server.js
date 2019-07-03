@@ -22,4 +22,32 @@ app.get( '/', function ( req, res) {
   })
 })
 
+
+// Show DNS
+const dns = require('dns');
+console.log("DNS: " +dns.getServers());
+
+// Test Mongo connection
+var vcap_services = JSON.parse(process.env.VCAP_SERVICES)
+var uri = vcap_services["mongodb-odb"][0].credentials.uri;
+
+console.log("vcap_services_uri: " + uri);
+
+var MongoClient = require('mongodb').MongoClient;
+console.log("URI: " + uri);
+
+MongoClient.connect(uri + "/exampleDb", function(err, db) {
+  if(!err) {
+    console.log("We are connected");
+  }
+  if(err) { return console.dir(err); }
+});
+
+
+
+
+
+
+
+
 app.listen( process.env.PORT || 4000)
